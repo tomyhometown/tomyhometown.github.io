@@ -1,161 +1,97 @@
-
-<html>
-  <head>
-    
-<meta charset="utf-8" >
-
-<title>此心安处</title>
-<meta name="description" content="此心安处是吾乡">
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://https://tomyhometown.github.io/favicon.ico?v=1586341628144">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-<link rel="stylesheet" href="https://https://tomyhometown.github.io/styles/main.css">
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-
-
-
-  </head>
-  <body>
-    <div id="app" class="main">
-      <div class="site-header-container">
-  <div class="site-header">
-    <div class="left">
-      <a href="https://https://tomyhometown.github.io">
-        <img class="avatar" src="https://https://tomyhometown.github.io/images/avatar.png?v=1586341628144" alt="" width="32px" height="32px">
-      </a>
-      <a href="https://https://tomyhometown.github.io">
-        <h1 class="site-title">此心安处</h1>
-      </a>
-    </div>
-    <div class="right">
-      <transition name="fade">
-        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
-      </transition>
-    </div>
-  </div>
-</div>
-
-<transition name="fade">
-  <div class="menu-container" style="display: none;" v-show="menuVisible">
-    <div class="menu-list">
-      
-        
-          <a href="/" class="menu purple-link">
-            首页
-          </a>
-        
-      
-        
-          <a href="/archives" class="menu purple-link">
-            归档
-          </a>
-        
-      
-        
-          <a href="/tags" class="menu purple-link">
-            标签
-          </a>
-        
-      
-        
-          <a href="/post/about" class="menu purple-link">
-            关于
-          </a>
-        
-      
-    </div>
-  </div>
-</transition>
-
-
-      <div class="content-container">
-        
-        
-<section class="post-item">
-    <div class="content">
-      <a href="https://https://tomyhometown.github.io/post/hello-gridea/">
-        <h2 class="post-title">Hello Gridea</h2>
-      </a>
-      <div class="post-abstract">
-        <p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="此心安处：记录重要经历、思考与作品，以及阅读、观影和游戏中的感受。">
+  <link rel="canonical" href="https://tomyhometown.github.io/">
+  <link rel="icon" href="/favicon.ico">
+  <title>此心安处</title>
+  <style>
+    :root { color-scheme: light; --paper:#faf9f6; --ink:#292b28; --muted:#74766f; --line:#e2e2d9; --accent:#4c6553; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; scroll-padding-top:24px; }
+    body { margin:0; background:var(--paper); color:var(--ink); font:16px/1.9 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+    a { color:inherit; text-underline-offset:5px; }
+    a:hover { color:var(--accent); }
+    a:focus-visible, summary:focus-visible { outline:2px solid var(--accent); outline-offset:6px; }
+    .wrap { max-width:850px; margin:auto; padding:0 36px; }
+    header { display:flex; justify-content:space-between; gap:24px; align-items:baseline; padding:38px 0 24px; border-bottom:1px solid var(--line); }
+    .brand { font-weight:650; text-decoration:none; letter-spacing:2px; white-space:nowrap; }
+    nav { display:flex; gap:22px; flex-wrap:wrap; font-size:14px; color:var(--muted); }
+    nav a { text-decoration:none; }
+    .intro { padding:68px 0 45px; }
+    .eyebrow { color:var(--accent); font-size:12px; letter-spacing:3px; }
+    h1,h2,h3 { font-family:"Noto Serif CJK SC","Songti SC",SimSun,serif; font-weight:500; }
+    h1 { font-size:38px; letter-spacing:2px; line-height:1.5; margin:15px 0 20px; }
+    .intro p { max-width:580px; margin:0; color:#60635c; }
+    .notice { color:var(--muted); font-size:12px; margin-top:22px!important; }
+    section { padding:30px 0; border-top:1px solid var(--line); }
+    .section-heading { display:flex; justify-content:space-between; gap:16px; align-items:baseline; margin-bottom:17px; }
+    h2 { font-size:23px; margin:0; }
+    .caption { color:var(--muted); font-size:12px; }
+    .entry { display:grid; grid-template-columns:96px 1fr; gap:16px; padding:15px 0; }
+    .date { color:var(--muted); font-size:12px; padding-top:4px; font-variant-numeric:tabular-nums; }
+    summary { cursor:pointer; list-style:none; font-size:17px; }
+    summary::-webkit-details-marker { display:none; }
+    summary::after { content:' +'; color:var(--muted); font-size:14px; }
+    details[open] summary::after { content:' −'; }
+    .excerpt { color:var(--muted); margin:5px 0 0; font-size:14px; }
+    .body { border-left:2px solid var(--line); margin-top:18px; padding-left:20px; font-size:15px; }
+    .body p { margin:10px 0; }
+    .works { display:grid; grid-template-columns:1fr 1fr; gap:30px; }
+    .works article { padding:12px 0; }
+    h3 { font-size:19px; margin:4px 0 7px; }
+    .tag { color:var(--accent); font-size:12px; }
+    .shelf { margin-top:10px; }
+    .shelf-row { display:grid; grid-template-columns:50px 1fr; gap:20px; padding:17px 0; border-bottom:1px dotted var(--line); }
+    .shelf-row:last-child { border:0; }
+    .shelf-row .tag { padding-top:3px; }
+    footer { border-top:1px solid var(--line); display:flex; justify-content:space-between; gap:20px; color:var(--muted); font-size:12px; padding:25px 0 40px; margin-top:25px; }
+    .skip { position:absolute; top:-100px; }
+    .skip:focus { top:10px; background:var(--paper); }
+    @media(max-width:600px) { .wrap { padding:0 23px; } header { flex-direction:column; gap:16px; padding-top:26px; } nav { gap:18px; } .intro { padding:44px 0 34px; } h1 { font-size:29px; } .entry { grid-template-columns:1fr; gap:3px; } .works { grid-template-columns:1fr; gap:10px; } .section-heading { align-items:start; } .caption { max-width:130px; text-align:right; } }
+    @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } }
+  </style>
+</head>
+<body id="top">
+  <div class="wrap">
+    <a class="skip" href="#main">跳到正文</a>
+    <header>
+      <a class="brand" href="#top">此心安处</a>
+      <nav aria-label="主导航"><a href="#thoughts">思考</a><a href="#life">经历</a><a href="#works">作品</a><a href="#shelf">书影音游</a><a href="#about">关于</a></nav>
+    </header>
+    <main id="main">
+      <div class="intro">
+        <span class="eyebrow">一个慢慢积累的地方</span>
+        <h1>留下一些，值得记住的事。</h1>
+        <p>这里存放我的经历、思考和作品，也记录读过的书、看过的电影，以及玩过的游戏。让散落的片段，有一个可以回来翻看的地方。</p>
+        <p class="notice">小站重新整理中 · 以下条目为示例，真实记录将陆续补上。点击条目标题可展开。</p>
       </div>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2018-12-12</span>
-        
-          <span>
-            <i class="icon icon-pricetags-outline"></i>
-            
-              <a href="https://https://tomyhometown.github.io/tag/yMLtvn3vG/">
-                Gridea
-                
-              </a>
-            
-          </span>
-        
-      </div>
-    </div>
-    
-      <a href="https://https://tomyhometown.github.io/post/hello-gridea/">
-        <div class="feature-container" style="background-image: url('https://https://tomyhometown.github.io/post-images/hello-gridea.png')">
+      <section id="thoughts" aria-labelledby="thoughts-heading">
+        <div class="section-heading"><h2 id="thoughts-heading">思考与记录</h2><span class="caption">长文章，也有尚未成形的念头</span></div>
+        <div class="entry"><span class="date">日期待填写</span><div><details><summary>我为什么想拥有一个个人网站</summary><div class="body"><p>示例正文：这个位置可以写建站的起点，或一个最近反复思考的问题。</p><p>每篇记录可以保留写作日期和后续补记。想法发生变化时，也可以留下变化的过程。</p></div></details><p class="excerpt">关于记忆、表达，以及长期积累。</p></div></div>
+        <div class="entry"><span class="date">日期待填写</span><div><details><summary>一个还没有答案的问题</summary><div class="body"><p>示例正文：记录问题的背景、目前的判断，以及还想进一步了解的事情。不必等到有完整答案才写下来。</p></div></details><p class="excerpt">给短想法和阶段性的判断留一点空间。</p></div></div>
+      </section>
+      <section id="life" aria-labelledby="life-heading">
+        <div class="section-heading"><h2 id="life-heading">重要经历</h2><span class="caption">那些影响了我的时刻</span></div>
+        <div class="entry"><span class="date">时间待填写</span><div><details><summary>一段值得留下的经历</summary><div class="body"><p>示例正文：发生了什么，当时做了怎样的选择，现在又如何看待它。这里也可以放旅行、人生转折或一件普通但重要的小事。</p></div></details><p class="excerpt">事情的经过，以及它留下的影响。</p></div></div>
+      </section>
+      <section id="works" aria-labelledby="works-heading">
+        <div class="section-heading"><h2 id="works-heading">作品</h2><span class="caption">亲手做出来的东西</span></div>
+        <div class="works"><article><span class="tag">示例 / 项目</span><h3>一个作品的位置</h3><p class="excerpt">它解决了什么问题，我做了什么，以及过程中最有意思的发现。</p></article><article><span class="tag">示例 / 创作</span><h3>另一种形式的表达</h3><p class="excerpt">可以是程序、文章、摄影或其他创作。作品不必局限于职业项目。</p></article></div>
+      </section>
+      <section id="shelf" aria-labelledby="shelf-heading">
+        <div class="section-heading"><h2 id="shelf-heading">书影音游</h2><span class="caption">遇见的作品，留下的感受</span></div>
+        <div class="shelf">
+          <div class="shelf-row"><span class="tag">阅读</span><div><details><summary>一本书的名字</summary><div class="body"><p>示例字段：作者、阅读时间、阅读状态、摘记与自己的思考。</p></div></details><p class="excerpt">什么观点触动了我？什么地方我并不认同？</p></div></div>
+          <div class="shelf-row"><span class="tag">观影</span><div><details><summary>一部电影的名字</summary><div class="body"><p>示例字段：导演、观看时间、一句话感受与详细记录。含剧透内容可在正文开头标注。</p></div></details><p class="excerpt">记住一个画面，或者看完之后的心情。</p></div></div>
+          <div class="shelf-row"><span class="tag">游戏</span><div><details><summary>一款游戏的名字</summary><div class="body"><p>示例字段：平台、游玩时间、进度与体验记录。可以随着游玩过程持续补记。</p></div></details><p class="excerpt">一个世界、一段体验，以及某个难忘的瞬间。</p></div></div>
         </div>
-      </a>
-    
-  </section>
-
-
-<div class="pagination-container">
-  
-  
-</div>
-
-
-      </div>
-
-      <div class="site-footer">
-  <div class="slogan">此心安处是吾乡</div>
-  <div class="social-container">
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
+      </section>
+      <section id="about" aria-labelledby="about-heading"><div class="section-heading"><h2 id="about-heading">关于我</h2></div><p class="excerpt">这里留给你自己的介绍：如何称呼你、你关心什么，以及希望向访客展示的个人信息。</p></section>
+    </main>
+    <footer><span>此心安处是吾乡</span><a href="#top">回到顶部 ↑</a></footer>
   </div>
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://https://tomyhometown.github.io/atom.xml" target="_blank">RSS</a>
-</div>
-
-
-    </div>
-    <script type="application/javascript">
-
-hljs.initHighlightingOnLoad()
-
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
-
-</script>
-
-
-
-
-  </body>
+</body>
 </html>
