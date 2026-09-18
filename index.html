@@ -32,6 +32,21 @@
         <h1>留下一些，值得记住的事。</h1>
         <p>这里存放我的经历、思考和作品，也记录读过的书、看过的电影，以及玩过的游戏。让散落的片段，有一个可以回来翻看的地方。</p>
       </div>
+      <section class="activity-section" aria-labelledby="activity-title">
+        <div class="activity-heading"><h2 id="activity-title">发布统计</h2><span id="activity-range" class="meta">最近 365 天</span></div>
+        <div id="activity-chart" hidden>
+          <div class="heatmap-scroll" role="region" aria-label="发布热力图" tabindex="0">
+            <div class="heatmap-layout">
+              <div class="heatmap-weekdays" aria-hidden="true"><span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span></div>
+              <div><div id="heatmap-months" class="heatmap-months" aria-hidden="true"></div><div id="heatmap-grid" class="heatmap-grid" role="group" aria-label="每日发布字数，颜色越深表示正文总字数越多"></div></div>
+            </div>
+          </div>
+          <div id="activity-detail" class="activity-detail" aria-live="polite" hidden></div>
+        </div>
+        <p id="activity-status" class="activity-status" role="status">正在读取发布记录…</p>
+        <div id="heatmap-tooltip" class="heatmap-tooltip" hidden></div>
+        <noscript><p class="meta">开启 JavaScript 可查看发布统计，各分类的记录仍可直接阅读。</p></noscript>
+      </section>
       <section aria-labelledby="categories-title">
         <h2 id="categories-title">在这里</h2>
         <div class="categories">
@@ -43,21 +58,6 @@
           <a class="category" href="/games/"><h3>游戏<span aria-hidden="true"> ↗</span></h3><p>走进另一个世界，留下一段自己的体验。</p></a>
           <a class="category" href="/novels/"><h3>小说<span aria-hidden="true"> ↗</span></h3><p>故事、人物，以及文字里的另一个世界。</p></a>
         </div>
-      </section>
-      <section aria-labelledby="activity-title">
-        <div class="activity-heading"><h2 id="activity-title">发布足迹</h2><span class="meta">最近 365 天</span></div>
-        <p id="activity-status" class="activity-status" role="status">正在读取发布记录…</p>
-        <div id="activity-chart" hidden>
-          <div class="heatmap-scroll" role="region" aria-label="发布热力图，可横向滚动" tabindex="0">
-            <div class="heatmap-layout">
-              <div class="heatmap-weekdays" aria-hidden="true"><span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span></div>
-              <div><div id="heatmap-months" class="heatmap-months" aria-hidden="true"></div><div id="heatmap-grid" class="heatmap-grid" role="group" aria-label="每日发布数量"></div></div>
-            </div>
-          </div>
-          <div class="heatmap-legend" aria-label="颜色由浅到深分别表示 0、1、2、3、4 篇及以上">少 <i data-level="0"></i><i data-level="1"></i><i data-level="2"></i><i data-level="3"></i><i data-level="4"></i> 多</div>
-          <div id="activity-detail" class="activity-detail" aria-live="polite"></div>
-        </div>
-        <noscript><p class="meta">开启 JavaScript 可查看发布统计，各分类的记录仍可直接阅读。</p></noscript>
       </section>
     </main>
     <footer><span>此心安处是吾乡</span><a href="#top">回到顶部 ↑</a></footer>
