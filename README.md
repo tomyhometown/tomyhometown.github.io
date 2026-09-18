@@ -17,9 +17,13 @@
 | 阅读 | `reading/index.html` |
 | 观影 | `movies/index.html` |
 | 游戏 | `games/index.html` |
+| 小说 | `novels/index.html` |
 | 关于 | `about/index.html` |
+| 发布热力图脚本 | `assets/heatmap.js` |
 | 全站新页面样式 | `assets/site.css` |
 | 文章模板 | `_templates/record.html.txt` |
 | 找不到页面时的提示 | `404.html` |
 
 旧 Gridea 文章和资源仍保留在原路径，新站不依赖 Gridea。不要再用旧 Gridea 发布流程覆盖此仓库。
+
+首页发布热力图自动统计各分类中带日期的记录，详细口径见 [写作与发布说明](WRITING.md#9-小说与发布统计)。
