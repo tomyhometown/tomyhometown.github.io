@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://https://tomyhometown.github.io</id>
+    <id>https://tomyhometown.github.io/</id>
     <title>此心安处</title>
     <updated>2020-04-08T10:27:11.365Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://https://tomyhometown.github.io"/>
-    <link rel="self" href="https://https://tomyhometown.github.io/atom.xml"/>
+    <link rel="alternate" href="https://tomyhometown.github.io/"/>
+    <link rel="self" href="https://tomyhometown.github.io/atom.xml"/>
     <subtitle>此心安处是吾乡</subtitle>
-    <logo>https://https://tomyhometown.github.io/images/avatar.png</logo>
-    <icon>https://https://tomyhometown.github.io/favicon.ico</icon>
+    <logo>https://tomyhometown.github.io/images/avatar.png</logo>
+    <icon>https://tomyhometown.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 此心安处</rights>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
-        <id>https://https://tomyhometown.github.io/post/hello-gridea/</id>
-        <link href="https://https://tomyhometown.github.io/post/hello-gridea/">
+        <id>https://tomyhometown.github.io/post/hello-gridea/</id>
+        <link href="https://tomyhometown.github.io/post/hello-gridea/">
         </link>
         <updated>2018-12-11T16:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>

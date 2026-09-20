@@ -28,7 +28,7 @@ test('bad or contradictory source dates fail rather than show misleading totals'
   assert.throws(()=>summarize([record('2026-02-30')],'2026-09-18'));
   assert.throws(()=>summarize([record('2026-09-17'),record('2026-09-18')],'2026-09-18'));
 });
-const {countWords, visibleDays, wordLevel} = require('../assets/heatmap.js');
+const {countWords, visibleDays, wordLevel, latestRecords} = require('../assets/heatmap.js');
 test('mixed Chinese and English count excludes punctuation and whitespace', () => {
   assert.equal(countWords('你好，world! 你好。'),5);
   assert.equal(countWords('Hello world 2026'),3);
@@ -46,4 +46,10 @@ test('word intensity uses daily sum and duplicate entries do not inflate it', ()
   const data=summarize([{...record('2026-09-18'),words:1300},{...record('2026-09-18'),words:1300},{...record('2026-09-18','/novels/b/'),words:900}],'2026-09-18');
   assert.equal(data.allWords,2200); assert.equal(data.days.at(-1).words,2200);
   assert.deepEqual([0,1,2000,2001,4000,4001,6001,8001].map(wordLevel),[0,1,1,2,2,3,4,5]);
+});
+test('latest publications are ordered by date and limited without mutating input', () => {
+  const records = [record('2026-09-16','/a/'), {...record('2026-09-18','/c/'),title:'C'}, {...record('2026-09-18','/b/'),title:'B'}, record('2026-09-17','/d/')];
+  const original = records.map(item => item.url);
+  assert.deepEqual(latestRecords(records).map(item => item.url), ['/b/','/c/','/d/']);
+  assert.deepEqual(records.map(item => item.url), original);
 });

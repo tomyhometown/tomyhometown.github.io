@@ -53,6 +53,13 @@ footer { border-top:1px solid var(--line); display:flex; justify-content:space-b
 .activity-section { position:relative; }
 .activity-heading { display:flex; justify-content:space-between; gap:16px; align-items:baseline; max-width:600px; }
 .activity-heading h2 { margin-bottom:16px; }
+.section-heading { display:flex; justify-content:space-between; gap:16px; align-items:baseline; }
+.section-heading h2 { margin-bottom:16px; }
+.latest-entries { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:0 28px; }
+.latest-entry { padding:18px 0; border-bottom:1px solid var(--line); }
+.latest-entry time { color:var(--muted); font-size:12px; }
+.latest-entry h3 { margin:5px 0 0; font-size:18px; line-height:1.55; }
+.latest-entry a { text-decoration:none; }
 .activity-status { color:var(--muted); font-size:13px; margin:12px 0 0; }
 .heatmap-scroll { max-width:600px; padding:3px 2px; }
 .heatmap-layout { display:flex; gap:8px; width:100%; }
@@ -76,3 +83,4 @@ footer { border-top:1px solid var(--line); display:flex; justify-content:space-b
 .activity-detail p,.heatmap-tooltip p { margin:0 0 5px; }
 .activity-detail a,.heatmap-tooltip a { display:block; color:var(--ink); }
 .heatmap-tooltip { position:absolute; z-index:2; width:max-content; max-width:min(300px,100%); padding:10px 14px; background:var(--paper); border:1px solid var(--line); border-radius:4px; box-shadow:0 3px 14px #292b2814; font-size:12px; line-height:1.8; overflow-wrap:anywhere; }
+@media(max-width:600px) { .latest-entries { grid-template-columns:1fr; } }

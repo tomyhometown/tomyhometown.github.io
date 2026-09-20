@@ -21,6 +21,9 @@
   }
   function visibleDays(width) { return width >= 600 ? 365 : width >= 400 ? 270 : 180; }
   function wordLevel(words) { return words <= 0 ? 0 : words <= 2000 ? 1 : words <= 4000 ? 2 : words <= 6000 ? 3 : words <= 8000 ? 4 : 5; }
+  function latestRecords(records, limit = 3) {
+    return [...records].sort((a, b) => b.date.localeCompare(a.date) || a.title.localeCompare(b.title, 'zh-CN')).slice(0, limit);
+  }
   function summarize(records, today, length = 365) {
     const end = parseDay(today);
     if (end === null) throw new Error('Invalid current day');
@@ -95,6 +98,7 @@
       const today = todayKey();
       summarize(all, today); // 校验跨分类重复链接的日期一致性。
       const unique = [...new Map(all.map(record => [record.url, record])).values()].filter(record => record.date <= today);
+      renderLatest(unique);
       // 限制并发，不让文章数量决定瞬时请求量。正文使用浏览器正常 HTTP 缓存。
       let next = 0;
       await Promise.all(Array.from({length: Math.min(4, unique.length)}, async () => {
@@ -114,6 +118,21 @@
       status.textContent = '发布统计暂时无法加载，请稍后刷新。你仍可以直接浏览各分类。';
       console.error('Publication statistics:', error);
     }
+  }
+  function renderLatest(records) {
+    const section = document.getElementById('latest-section');
+    const container = document.getElementById('latest-entries');
+    if (!section || !container) return;
+    const latest = latestRecords(records);
+    if (!latest.length) return;
+    container.replaceChildren(...latest.map(record => {
+      const article = document.createElement('article'); article.className = 'latest-entry';
+      const time = document.createElement('time'); time.dateTime = record.date; time.textContent = record.date;
+      const heading = document.createElement('h3'); const link = document.createElement('a');
+      link.href = record.url; link.textContent = record.title; heading.append(link); article.append(time, heading);
+      return article;
+    }));
+    section.hidden = false;
   }
   function render(data) {
     const grid = document.getElementById('heatmap-grid');
@@ -184,6 +203,6 @@
     const scroll = document.querySelector('.heatmap-scroll');
     scroll.scrollLeft = scroll.scrollWidth;
   }
-  if (typeof module !== 'undefined' && module.exports) module.exports = {parseDay, summarize, readEntries, countWords, visibleDays, wordLevel, bodyWords};
+  if (typeof module !== 'undefined' && module.exports) module.exports = {parseDay, summarize, readEntries, countWords, visibleDays, wordLevel, bodyWords, latestRecords};
   if (typeof document !== 'undefined') init();
 })();
