@@ -6,7 +6,7 @@
   <meta name="description" content="一句话说明这件事为什么值得记录">
   <link rel="canonical" href="https://tomyhometown.github.io/works/2026-09-20-project-name/">
   <link rel="alternate" type="application/atom+xml" title="此心安处" href="/atom.xml">
-  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="256x256" href="/assets/favicon.png?v=20260920">
   <link rel="stylesheet" href="/assets/site.css">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="zh_CN">
