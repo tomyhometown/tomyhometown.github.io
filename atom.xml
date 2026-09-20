@@ -8,8 +8,15 @@
     <link rel="self" href="https://tomyhometown.github.io/atom.xml"/>
     <subtitle>此心安处是吾乡</subtitle>
     <logo>https://tomyhometown.github.io/images/avatar.png</logo>
-    <icon>https://tomyhometown.github.io/favicon.ico</icon>
+    <icon>https://tomyhometown.github.io/assets/favicon.png</icon>
     <rights>All rights reserved 2026, 此心安处</rights>
+    <entry>
+        <title>2026 问卷：十个问题的答案</title>
+        <id>https://tomyhometown.github.io/thoughts/2026-09-20-questionnaire/</id>
+        <link href="https://tomyhometown.github.io/thoughts/2026-09-20-questionnaire/"/>
+        <updated>2026-09-20T00:00:00+08:00</updated>
+        <summary>在三十出头这一年，回答关于生活、自由、健康、FIRE 与未来自己的十个问题，留下一份此刻的切片。</summary>
+    </entry>
     <entry>
         <title>FIRE 记录一：钱、时间与精神准备</title>
         <id>https://tomyhometown.github.io/thoughts/2026-09-20-fire-record-1/</id>
