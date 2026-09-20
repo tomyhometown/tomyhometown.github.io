@@ -53,3 +53,11 @@ test('latest publications are ordered by date and limited without mutating input
   assert.deepEqual(latestRecords(records).map(item => item.url), ['/b/','/c/','/d/']);
   assert.deepEqual(records.map(item => item.url), original);
 });
+const {validatePublicationIndex} = require('../assets/heatmap.js');
+test('accepts generated publication index and rejects malformed records', () => {
+  const index = {schemaVersion:1, articles:[{date:'2026-09-20',title:'A',url:'/thoughts/a/',words:421}]};
+  assert.deepEqual(validatePublicationIndex(index), index.articles);
+  assert.throws(() => validatePublicationIndex({...index, schemaVersion:2}));
+  assert.throws(() => validatePublicationIndex({schemaVersion:1, articles:[{...index.articles[0], words:-1}]}));
+  assert.throws(() => validatePublicationIndex({schemaVersion:1, articles:[{...index.articles[0], url:'https://example.com/a/'}]}));
+});

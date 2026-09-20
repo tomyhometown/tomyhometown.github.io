@@ -1,7 +1,6 @@
-/* 发布统计的数据来源：七个分类页面的 article.entry、time[datetime] 和 h2 a。 */
+/* 发布统计的数据来源：发布时生成的 assets/publications.json。 */
 (function () {
   'use strict';
-  const categories = ['thoughts', 'life', 'works', 'reading', 'movies', 'games', 'novels'];
   const DAY = 86400000;
   function parseDay(value) {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(value || '')) return null;
@@ -53,60 +52,25 @@
     });
     return {days, allTotal, allWords, offset: new Date(start).getUTCDay(), total: days.reduce((n, d) => n + d.records.length, 0), active: counts.size};
   }
-  function readEntries(html, base) {
-    const doc = new DOMParser().parseFromString(html, 'text/html');
-    return Array.from(doc.querySelectorAll('article.entry')).map(entry => {
-      const link = entry.querySelector('h2 a[href]');
-      const date = entry.querySelector('time[datetime]')?.getAttribute('datetime');
-      if (!link || parseDay(date) === null) throw new Error('Incomplete publication entry');
-      const url = new URL(link.getAttribute('href'), base);
-      const origin = new URL(base).origin;
-      if (url.origin !== origin || !categories.includes(url.pathname.split('/')[1])) throw new Error('Invalid record URL');
-      url.hash = ''; url.search = '';
-      url.pathname = url.pathname.replace(/index\.html$/, '');
-      if (!url.pathname.endsWith('/')) url.pathname += '/';
-      if (url.pathname.split('/').filter(Boolean).length < 2 || !link.textContent.trim()) throw new Error('Not a publication URL or title');
-      return {date, title: link.textContent.trim(), url: url.pathname};
+  function validatePublicationIndex(data) {
+    if (!data || data.schemaVersion !== 1 || !Array.isArray(data.articles)) throw new Error('Invalid publication index');
+    return data.articles.map(record => {
+      if (!record || parseDay(record.date) === null || typeof record.title !== 'string' || !record.title.trim() ||
+          typeof record.url !== 'string' || !/^\/(thoughts|life|works|reading|movies|games|novels)\/.+\/$/.test(record.url) ||
+          !Number.isInteger(record.words) || record.words < 0) throw new Error('Invalid publication record');
+      return {date: record.date, title: record.title.trim(), url: record.url, words: record.words};
     });
-  }
-  async function getText(url) {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 15000);
-    try {
-      const response = await fetch(url, {signal: controller.signal});
-      if (!response.ok) throw new Error('Unable to load ' + url);
-      return await response.text();
-    } finally { clearTimeout(timeout); }
-  }
-  function bodyWords(html) {
-    const doc = new DOMParser().parseFromString(html, 'text/html');
-    const body = doc.querySelector('.article-body');
-    if (!body) throw new Error('Publication is missing .article-body');
-    body.querySelectorAll('script, style, template, [hidden]').forEach(node => node.remove());
-    body.querySelectorAll('p, li, h1, h2, h3, h4, h5, h6, blockquote, pre, br').forEach(node => node.after(doc.createTextNode(' ')));
-    return countWords(body.textContent);
   }
   async function init() {
     const status = document.getElementById('activity-status');
     if (!status) return;
     try {
-      const groups = await Promise.all(categories.map(async category => {
-        const url = new URL('/' + category + '/', location.origin);
-        return readEntries(await getText(url.href), url.href);
-      }));
-      const all = groups.flat();
       const today = todayKey();
-      summarize(all, today); // 校验跨分类重复链接的日期一致性。
-      const unique = [...new Map(all.map(record => [record.url, record])).values()].filter(record => record.date <= today);
+      const response = await fetch('/assets/publications.json', {cache: 'no-cache'});
+      if (!response.ok) throw new Error('Unable to load publication index');
+      const unique = validatePublicationIndex(await response.json()).filter(record => record.date <= today);
+      summarize(unique, today); // 校验重复链接的日期一致性。
       renderLatest(unique);
-      // 限制并发，不让文章数量决定瞬时请求量。正文使用浏览器正常 HTTP 缓存。
-      let next = 0;
-      await Promise.all(Array.from({length: Math.min(4, unique.length)}, async () => {
-        while (next < unique.length) {
-          const record = unique[next++];
-          record.words = bodyWords(await getText(record.url));
-        }
-      }));
       let length = visibleDays(window.innerWidth);
       const redraw = () => render(summarize(unique, todayKey(), length));
       redraw();
@@ -203,6 +167,6 @@
     const scroll = document.querySelector('.heatmap-scroll');
     scroll.scrollLeft = scroll.scrollWidth;
   }
-  if (typeof module !== 'undefined' && module.exports) module.exports = {parseDay, summarize, readEntries, countWords, visibleDays, wordLevel, bodyWords, latestRecords};
+  if (typeof module !== 'undefined' && module.exports) module.exports = {parseDay, summarize, countWords, visibleDays, wordLevel, latestRecords, validatePublicationIndex};
   if (typeof document !== 'undefined') init();
 })();

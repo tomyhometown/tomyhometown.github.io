@@ -14,9 +14,9 @@
 | 游戏体验 | `games` | `games/index.html` |
 | 小说、故事、连载章节 | `novels` | `novels/index.html` |
 
-一篇记录需要做两件事：**创建正文文件 + 在分类列表里加上链接**。首页已经链接到所有分类，无须每次改首页。
+一篇记录需要完成三项变更：**创建正文文件 + 在分类列表里加上链接 + 重新生成发布索引**。首页已经链接到所有分类，无须每次手工改首页。
 
-## 2. 只用浏览器添加记录
+## 2. 使用浏览器编辑记录
 
 1. 登录有仓库写权限的 GitHub 账号，打开 [仓库](https://github.com/tomyhometown/tomyhometown.github.io)。
 2. 确认当前分支是 `master`。按键盘上的 `.`，进入 GitHub 网页编辑器（github.dev），可以一次编辑并提交多个文件。
@@ -24,10 +24,11 @@
 4. 在目标分类下创建一个新文件。例如添加一篇读书记录时，创建 `reading/2026-09-18-book-notes/index.html`，粘贴模板内容。这里的日期和英文名称由你决定；建议使用小写英文字母、数字、短横线，之后尽量不改路径。
 5. 按下一节替换模板中的内容。
 6. 在 `reading/index.html` 中添加这篇记录的入口，方法见第 4 节。
-7. 打开编辑器左侧的源代码管理，核对只有你打算发布的文件有改动；正文文件和分类列表一起提交。提交说明可以写 `docs(reading): add book notes`。点击提交并推送；如果界面分开提供 Commit 和 Sync/Push，则依次完成两步。
-8. 到仓库的 [Actions](https://github.com/tomyhometown/tomyhometown.github.io/actions) 查看对应提交的 `pages build and deployment`，成功后检查线上页面。
+7. 浏览器编辑器可以完成正文和分类入口，但 github.dev 不能运行生成脚本。正式提交前，还需在本地仓库运行第 7 节的索引命令，或交由已连接仓库且能执行脚本的助手完成。
+8. 核对正文、分类入口和 `assets/publications.json` 在同一次提交中。提交说明可以写 `docs(reading): add book notes`。
+9. 到仓库的 [Actions](https://github.com/tomyhometown/tomyhometown.github.io/actions) 查看对应提交的 `pages build and deployment`，成功后检查线上页面。
 
-若你更习惯 GitHub 普通网页的 Add file / Edit 按钮，也可以使用：先提交正文，再提交分类链接，避免出现已列出但正文尚不存在的链接。
+若只使用 GitHub 普通网页的 Add file / Edit 按钮，可以保存草稿，但不要跳过索引生成就视为完整发布；否则正文可访问，首页统计却不会包含它。
 
 ## 3. 填写正文模板
 
@@ -137,11 +138,14 @@ python3 -m http.server 8000 --bind 127.0.0.1
 
 浏览器打开 `http://127.0.0.1:8000/`，按 `Ctrl+C` 停止服务器。不要直接双击 HTML 预览：网站使用 `/assets/...` 等从站点根目录开始的路径，需要通过 HTTP 服务访问。
 
-完成编辑后，按实际路径提交正文和列表：
+完成编辑后，先生成并校验发布索引，再按实际路径提交正文、列表和索引：
 
 ```bash
 git diff --check
-git add reading/2026-09-18-book-notes/index.html reading/index.html
+node scripts/build-publication-index.cjs
+node scripts/build-publication-index.cjs --check
+node --test tests/heatmap.test.cjs
+git add reading/2026-09-18-book-notes/index.html reading/index.html assets/publications.json
 git diff --cached
 git commit -m "docs(reading): add book notes"
 git push origin master
@@ -168,7 +172,14 @@ git push origin master
 
 小说入口是 `/novels/`，记录添加方式与其他分类相同。连载可以按章节创建独立页面，也可以将一部短篇放在一个页面。
 
-首页的“发布统计”自动读取七个分类页面里的 `article.entry` 条目，使用 `time` 的 `datetime` 属性作为发布日期、`h2 a` 作为标题和正文链接，再读取文章的 `.article-body` 正文计算字数。不需要额外填写统计表，也不统计 Git 提交次数。
+首页的“发布统计”只读取 `assets/publications.json`。该文件由 `scripts/build-publication-index.cjs` 在发布时扫描七个分类页面里的 `article.entry`，再读取正文的 `.article-body` 并计算字数。它是生成物，不要手工填写，也不统计 Git 提交次数。
+
+访客每次打开首页只需下载这一份小型索引，不再请求七个分类页和全部正文。新增、删除或修改正文后运行：
+
+```bash
+node scripts/build-publication-index.cjs
+node scripts/build-publication-index.cjs --check
+```
 
 - 保留第 4 节的 HTML 结构：`article class="entry"`、`time datetime="YYYY-MM-DD"`、`h2` 内的正文链接。
 - 日期必须是真实有效的首次发布日期；日期格式固定为 `YYYY-MM-DD`。
@@ -178,13 +189,14 @@ git push origin master
 - 修订正文不增加篇数，也不要为了记录修改而改变首次发布日期。字数按当前正文重新计算，计在首次发布日期上，不是每天增量写作的字数。
 - 连载每个独立章节网址可以计为一篇；持续更新同一网址仍只计一篇。
 - 不要把分类页、外部链接或作品官网当成正文入口。作品链接放在本站作品介绍正文里。
-- 新站目前没有实际发布的记录时，图表显示 0；旧 Gridea 欢迎文章不纳入新站统计。
+- 没有实际发布记录时，图表显示 0；旧 Gridea 欢迎文章不纳入新站统计。
 - 首页“最近发布”与统计使用同一组分类入口，存在公开记录时自动显示日期最新的三篇；不需要手工维护第二份列表。
 - 色深表示当天所有文章的正文总字数：0、1–2000、2001–4000、4001–6000、6001–8000、8000 以上，逐级加深。
 - 字数规则：汉字及日文假名按单字计数，其他语言按连续字母／数字词计数，标点和空白不计。只统计 `.article-body` 正文，标题、摘要、导航不计；保留模板的正文容器。
 - 悬停可查看日期、标题和字数，浮层中的标题可点击。点击日期则在图表下展开文章链接，适合手机操作。键盘 Tab 聚焦图表日期后，可用方向键移动，Home / End 跳到起止日期。
 - 删除分类列表入口后，该记录不再计入统计。首页、关于页、模板、站点维护说明不计入。
-- 发布后打开首页核对计数。若统计无法加载，检查网络请求以及各分类的条目是否缺少标题链接、日期无效，同一个链接是否填写了不同日期，正文链接是否 404，正文是否缺少 `.article-body`。任何一篇正文加载失败时会显示加载失败提示，不以不完整数据冒充总数。
+- 发布前执行 `node scripts/build-publication-index.cjs --check`；如果失败，先重新生成并检查脚本报告的无效日期、链接、正文或冲突信息。
+- 发布后打开首页核对计数。若统计无法加载，检查 `assets/publications.json` 是否成功部署、结构是否有效；首页不会用不完整结果冒充总数。
 
 热力图依赖浏览器 JavaScript；关闭脚本不影响直接阅读分类和正文。
 
