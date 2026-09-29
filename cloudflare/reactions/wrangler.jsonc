@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "cixinanchu-reactions",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-05-03",
+  "workers_dev": true,
+  "preview_urls": false,
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "cixinanchu-reactions",
+      "database_id": "c8c8e015-f059-434a-9081-f85c06e52e9b"
+    }
+  ]
+}

@@ -46,10 +46,15 @@
           <p>第一段正文。</p>
           <p>第二段正文。</p>
         </div>
+        <div class="reaction-panel" data-reaction hidden>
+          <button class="reaction-button" type="button" data-reaction-button aria-pressed="false">❤️ 有共鸣 <span data-reaction-count>0</span></button>
+          <span class="reaction-status" data-reaction-status aria-live="polite"></span>
+        </div>
       </article>
     </main>
     <footer><span>此心安处是吾乡</span><a href="#top">回到顶部 ↑</a></footer>
   </div>
+  <script src="/assets/reactions.js?v=20260929-1" defer></script>
   <!-- Cloudflare Web Analytics -->
   <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"7b4903c567964c1db44a539b371c1245"}'></script>
   <!-- End Cloudflare Web Analytics -->
